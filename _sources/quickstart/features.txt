@@ -1,0 +1,27 @@
+Features
+=================================
+
+BMCV SDK is composed of Device Driver, Runtime Library, Header files and Tools, main features including:
+
+    1)	Device Driver
+
+            PCIE Board Device Driver is compatiable with versatile Linux Distributions and Various Linux Kernel Versions.
+
+            Provides Application Interface to BMCV SDK and BMDNN SDK.
+
+            Focusing on Operaion of VPU and NPU.
+
+    2)	Runtime Library
+
+            Runtime Library provide Application Interface to VPU and NPU in user mode.
+
+            Runtime Library provide CV Accelerate API in user mode.
+
+    3)	Tools
+
+            Including Customized FFMPE for Video Processing Application.
+
+            VPU test tools, to check VPU status.
+
+
+

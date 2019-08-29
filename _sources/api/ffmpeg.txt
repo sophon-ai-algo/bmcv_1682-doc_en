@@ -1,0 +1,42 @@
+FFMPEG Interfaces
+=================================
+
+Customized FFMPEG software package is included in release package. 
+It is developmed on opensource FFMPEG 4.1 version, main modification to it is to support BM1682 hardware video decoding accelerate. 
+
+No modifications to fundermental video decoding application interface.
+
+Parameter to indicating the PCIE board is added, it can be set when creating decoder context, 
+to set the decoder hardware in the specific PCIE board:
+
+    .. image:: ./ffmpeg1.png                                
+       :width: 400px 
+       :align: center
+
+The parameter can be set before open decoder:
+	
+    .. image:: ./ffmpeg2.png                                
+       :width: 400px 
+       :align: center
+
+Parameter is added to omit copy back of decoded frames to CPU:
+	
+    .. image:: ./ffmpeg3.png                                
+       :width: 400px 
+       :align: center
+	
+If the decoded frames are input to neuron network processing, 
+by enable this parameter, the frames will not copy back to CPU, this can reduce data flow on PCIE interface: 
+	
+    .. image:: ./ffmpeg4.png                                
+       :width: 400px 
+       :align: center
+	
+Default frame format of VPU decode is NV12.
+	
+AVFrame structure is expanded, in which data array is enlarged to 8, the latter 4 holds physical address on PCIE board of the decoded color channels,
+they are address within PCIE board and can’t be accessed by CPU directly, they can be used as input to neuron network processing:
+
+    .. image:: ./ffmpeg5.png                                
+       :width: 400px 
+       :align: center

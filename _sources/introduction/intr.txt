@@ -1,0 +1,32 @@
+BMCV Introduction
+=================================
+
+BMCVSDK（BITMAIN Computer Vision SDK）is Bitmain Technologies Inc. original software for its original AI chips.
+
+BMCV SDK is composed of customized FFMPEG software development package and accelerate interface library based on deep learning chip,
+BMCV SDK focus on effencient video data processing in neuron network based media processing applications. 
+
+Structure of BM1682 deep learning chip is as follows: 
+
+.. image:: ./structure1.png                                
+    :width: 400px 
+    :align: center
+
+BMCV SDK software structure is as follows:
+
+.. image:: ./structure2.png                                
+    :width: 400px 
+    :align: center
+
+Application program runs on host CPU, linking with BMDNN SDK and BMCV SDK libraries and FFMPEG libraries,
+it accuquires neuron network accelearation and CV acceleration by BM1682 on PCIE board.
+
+    1.	Video strem from file or network is sent to FFMPEG and delivered to VPU for decoding, the decoded frames are saved in DDR memory on PCIE board.
+	
+    2.	Decoded frame as input to BMCV API for image processing, and save the result in DDR memory on PCIE board.
+	
+    3.	Context of neuron network which is compiled and optimized by BMCompiler is loaded to DDR memory on PCIE board by applicatioin with BMRUNTIME and BMLIB function interface.
+	
+    4.	Running neuron network to process the input image in DDR memory on PCIE board, and copy the result back to host CPU.
+	
+Above is a typical example of neuron network based video processing application, BMCV SDK and FFMPEG provides piplined processing on video stream and its frames. Source stream is sent PCIE board for decoding and the decoded frames is not necessary to copy back to host cpu and zero copy in DDR memory on PCIE board, too. This combination of software functions reduces data flow on PCIE bus comprehensively. 

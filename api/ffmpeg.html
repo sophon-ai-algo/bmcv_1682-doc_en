@@ -1,0 +1,238 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>FFMPEG Interfaces &mdash; SophonInference  documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="SophonInference  documentation" href="../index.html"/>
+        <link rel="next" title="BMCV Lib Interface" href="bmcv.html"/>
+        <link rel="prev" title="BMCV Introduction" href="../introduction/intr.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> SophonInference
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart/glossary.html">BMCV Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart/version.html">Version</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart/features.html">Features</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/intr.html">BMCV Introduction</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="">FFMPEG Interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bmcv.html">BMCV Lib Interface</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../demo/demo.html">BMCV Sample Code Explain</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">SophonInference</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+    <li>FFMPEG Interfaces</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/api/ffmpeg.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="ffmpeg-interfaces">
+<h1>FFMPEG Interfaces<a class="headerlink" href="#ffmpeg-interfaces" title="Permalink to this headline">¶</a></h1>
+<p>Customized FFMPEG software package is included in release package.
+It is developmed on opensource FFMPEG 4.1 version, main modification to it is to support BM1682 hardware video decoding accelerate.</p>
+<p>No modifications to fundermental video decoding application interface.</p>
+<p>Parameter to indicating the PCIE board is added, it can be set when creating decoder context,
+to set the decoder hardware in the specific PCIE board:</p>
+<blockquote>
+<div><a class="reference internal image-reference" href="../_images/ffmpeg1.png"><img alt="../_images/ffmpeg1.png" class="align-center" src="../_images/ffmpeg1.png" style="width: 400px;" /></a>
+</div></blockquote>
+<p>The parameter can be set before open decoder:</p>
+<blockquote>
+<div><a class="reference internal image-reference" href="../_images/ffmpeg2.png"><img alt="../_images/ffmpeg2.png" class="align-center" src="../_images/ffmpeg2.png" style="width: 400px;" /></a>
+</div></blockquote>
+<p>Parameter is added to omit copy back of decoded frames to CPU:</p>
+<blockquote>
+<div><a class="reference internal image-reference" href="../_images/ffmpeg3.png"><img alt="../_images/ffmpeg3.png" class="align-center" src="../_images/ffmpeg3.png" style="width: 400px;" /></a>
+</div></blockquote>
+<p>If the decoded frames are input to neuron network processing,
+by enable this parameter, the frames will not copy back to CPU, this can reduce data flow on PCIE interface:</p>
+<blockquote>
+<div><a class="reference internal image-reference" href="../_images/ffmpeg4.png"><img alt="../_images/ffmpeg4.png" class="align-center" src="../_images/ffmpeg4.png" style="width: 400px;" /></a>
+</div></blockquote>
+<p>Default frame format of VPU decode is NV12.</p>
+<p>AVFrame structure is expanded, in which data array is enlarged to 8, the latter 4 holds physical address on PCIE board of the decoded color channels,
+they are address within PCIE board and can’t be accessed by CPU directly, they can be used as input to neuron network processing:</p>
+<blockquote>
+<div><a class="reference internal image-reference" href="../_images/ffmpeg5.png"><img alt="../_images/ffmpeg5.png" class="align-center" src="../_images/ffmpeg5.png" style="width: 400px;" /></a>
+</div></blockquote>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="bmcv.html" class="btn btn-neutral float-right" title="BMCV Lib Interface" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../introduction/intr.html" class="btn btn-neutral" title="BMCV Introduction" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Sophon.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

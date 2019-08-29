@@ -1,0 +1,48 @@
+BMCV Sample Code Explain
+============================
+
+Short code fragment will be shown in this chapter to illustrate typical usage of bmcv application interface.
+
+A BMDN context must be created for furture use, it will implement the compiled neuron network by BMCompiler, 
+user can indicate which PCIE board to use in multi-board environment by parameter pcie_board_id:
+
+.. image:: ./demo1.png                                
+    :width: 400px 
+    :align: center
+
+Handle to the context can be accuired, using it as later neuron network processing and image/video accelerate: 
+
+.. image:: ./demo2.png                                
+    :width: 400px 
+    :align: center
+
+Neuron network objects are declared for furture operation:
+
+.. image:: ./demo3.png                                
+    :width: 400px 
+    :align: center
+
+Ffmpeg can be invoked to start decoding of the video stream, the same PCIE board on which neuron network context located is 
+set to use the BM1682 VPU on that PCIE board: 
+
+.. image:: ./demo4.png                                
+    :width: 400px 
+    :align: center
+
+Parameter pcie_no_copyback can be enabled to reduce data transfer on PCIE interface.
+
+.. code-block:: c
+
+    Av_dict_set_int(&opts, “pcie_no_copyback”, 1, 0x0);
+
+Start decoder, and get every frame of the video stream, construct memory description structure with the frame data address:
+
+.. image:: ./demo5.png                                
+    :width: 400px 
+    :align: center
+
+The memory description structure can be used as neuron network input, running in zero copy:
+
+.. image:: ./demo6.png                                
+    :width: 400px 
+    :align: center

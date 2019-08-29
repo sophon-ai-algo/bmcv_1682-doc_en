@@ -1,0 +1,51 @@
+BMCV Glossary
+=============================
+
++--------------+----------------------------------------------+
+| **Glossary** | **Memo**                                     |
++==============+==============================================+
+|BM1682	       |Second Generation of Deep Learning Accelarator|
+|              |form Bitmain Technologies Inc.                |
++--------------+----------------------------------------------+
+|NPU           |BM1682 Neuron Processing Unit                 |
++--------------+----------------------------------------------+
+|BMCV          |Computer Vision Software Development Kit from |
+|              |Bitmain Technologies Inc.                     |
++--------------+----------------------------------------------+
+|BMNNSDK       |Bitmain Originated Deep Learning Software     |
+|              |Development Kit                               |
++--------------+----------------------------------------------+
+|PCIE Mode     |A kind of BM1682 product form, in which BM1682|
+|              |runs in PCIE Accelerator Card, and BMDNN/BMCV |
+|              |SDK runs in host Computer                     |
++--------------+----------------------------------------------+
+|Drivers       |BMDNN/BMCV SDK Access BM1682 via Drivers      |
++--------------+----------------------------------------------+
+|BMCompiler    |Deep Learning Neuron Network Optimized        |
+|              |Compiler specific for BM1682, it converts     |
+|              |various Neuron Network to BM1682 NPU          |
+|              |instructions                                  |
++--------------+----------------------------------------------+
+|BMNetC        |BMCompiler Frontend for Caffe                 |
++--------------+----------------------------------------------+
+|BMNetT        |BMCompiler Frontend for TensorFlow            |
++--------------+----------------------------------------------+
+|BMNetM        |BMCompiler Frontend for MxNet                 |
++--------------+----------------------------------------------+
+|BMNetP        |BMCompiler Frontend for PyTorch               |
++--------------+----------------------------------------------+
+|BMRuntime     |Runtime Library of BMCompiler, providing      |
+|              |Application Programable Application interface |
+|              |to BM1682                                     |
++--------------+----------------------------------------------+
+|BMDNN         |Interface Library of Deep Learning Layers     |
++--------------+----------------------------------------------+
+|VPU           |Video Processing Unit in BM1682               |
++--------------+----------------------------------------------+
+|FFMPEG        |An Open source Media Processing Software      |
++--------------+----------------------------------------------+
+|HEVC          |High Efficiency Video Coding                  |
++--------------+----------------------------------------------+
+|Stride        |Width of data occupied by every row of an     |
+|              |image, mostly in unit of pixel                |
++--------------+----------------------------------------------+

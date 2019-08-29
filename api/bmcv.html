@@ -1,0 +1,564 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>BMCV Lib Interface &mdash; SophonInference  documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="SophonInference  documentation" href="../index.html"/>
+        <link rel="next" title="BMCV Sample Code Explain" href="../demo/demo.html"/>
+        <link rel="prev" title="FFMPEG Interfaces" href="ffmpeg.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> SophonInference
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart/glossary.html">BMCV Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart/version.html">Version</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart/features.html">Features</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/intr.html">BMCV Introduction</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="ffmpeg.html">FFMPEG Interfaces</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">BMCV Lib Interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#common-structure">Common Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#bmcv-img-yuv2bgr">bmcv_img_yuv2bgr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#bmcv-img-crop">bmcv_img_crop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#bmcv-img-scale">bmcv_img_scale</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#bmcv-img-transpose">bmcv_img_transpose</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#bmcv-img-bgrsplit">bmcv_img_bgrsplit</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../demo/demo.html">BMCV Sample Code Explain</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">SophonInference</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+    <li>BMCV Lib Interface</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/api/bmcv.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="bmcv-lib-interface">
+<h1>BMCV Lib Interface<a class="headerlink" href="#bmcv-lib-interface" title="Permalink to this headline">¶</a></h1>
+<p>BMCV library provide image processing interface based on NPU. With powerful parallel processing mechanism of NPU, images can be processed faster.</p>
+<div class="section" id="common-structure">
+<h2>Common Structure<a class="headerlink" href="#common-structure" title="Permalink to this headline">¶</a></h2>
+<p>Common structures are defined in BMCV library, they are used in image processing application interfaces:</p>
+<blockquote>
+<div><div class="highlight-c"><div class="highlight"><pre><span class="cp">#define MAX_BMCV_IMAGE_CHANNEL 4</span>
+
+<span class="k">typedef</span> <span class="k">enum</span> <span class="n">bmcv_data_format_</span><span class="p">{</span>
+    <span class="n">DATA_TYPE_FLOAT</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>  <span class="c1">// data type is 32 bit float</span>
+    <span class="n">DATA_TYPE_BYTE</span> <span class="o">=</span> <span class="mi">4</span>  <span class="c1">// data type is 8 bit</span>
+<span class="p">}</span><span class="n">bmcv_data_format</span><span class="p">;</span>
+
+
+<span class="k">typedef</span> <span class="k">enum</span> <span class="n">bmcv_color_space_</span><span class="p">{</span>
+    <span class="n">COLOR_YUV</span><span class="p">,</span>  <span class="c1">// color space is yuv</span>
+    <span class="n">COLOR_YCbCr</span><span class="p">,</span> <span class="c1">// color space is YCbCr</span>
+    <span class="n">COLOR_RGB</span>  <span class="c1">// color space is rgb</span>
+<span class="p">}</span><span class="n">bmcv_color_space</span><span class="p">;</span>
+
+
+<span class="k">typedef</span> <span class="k">enum</span> <span class="n">bmcv_image_format_</span><span class="p">{</span>
+    <span class="n">YUV420P</span><span class="p">,</span>  <span class="c1">// data is in YUV420 packed format</span>
+    <span class="n">NV12</span><span class="p">,</span>  <span class="c1">// data is in NV12 format</span>
+    <span class="n">NV21</span><span class="p">,</span>  <span class="c1">// data is in NV21 format</span>
+    <span class="n">RGB</span><span class="p">,</span>  <span class="c1">// data is in RGB planar format</span>
+    <span class="n">BGR</span><span class="p">,</span>  <span class="c1">// data is in BGR planar format</span>
+    <span class="n">RGB_PACKED</span><span class="p">,</span> <span class="c1">// data is in RGB packed format</span>
+    <span class="n">BGR_PACKED</span><span class="p">,</span> <span class="c1">// data is in BGR packed format</span>
+    <span class="n">BGR4N</span>  <span class="c1">// data is in BGR 4N mode, for future use</span>
+<span class="p">}</span><span class="n">bmcv_image_format</span><span class="p">;</span>
+
+
+<span class="k">typedef</span> <span class="k">struct</span> <span class="n">bmcv_image_t</span><span class="p">{</span>
+    <span class="n">bmcv_color_space</span> <span class="n">color_space</span><span class="p">;</span>  <span class="c1">// color space of the image</span>
+    <span class="n">bmcv_data_format</span> <span class="n">data_format</span><span class="p">;</span>  <span class="c1">// data format of the image</span>
+    <span class="n">bmcv_image_format</span> <span class="n">image_format</span><span class="p">;</span>  <span class="c1">// image format of the image</span>
+    <span class="kt">int</span>              <span class="n">image_width</span><span class="p">;</span>  <span class="c1">// image width in pixel</span>
+    <span class="kt">int</span>              <span class="n">image_height</span><span class="p">;</span>  <span class="c1">// image height in pixel</span>
+    <span class="n">bm_device_mem_t</span>  <span class="n">data</span><span class="p">[</span><span class="n">MAX_BMCV_IMAGE_CHANNEL</span><span class="p">];</span> <span class="c1">// address of image data, may contain Y and UV channels in NV12 and YUV420P format; and R, G, B in RGB/BGR format, usually set the start address is enough</span>
+    <span class="kt">int</span>              <span class="n">stride</span><span class="p">[</span><span class="n">MAX_BMCV_IMAGE_CHANNEL</span><span class="p">];</span> <span class="c1">// stride of the image data</span>
+<span class="p">}</span><span class="n">bmcv_image</span><span class="p">;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="bmcv-img-yuv2bgr">
+<h2>bmcv_img_yuv2bgr<a class="headerlink" href="#bmcv-img-yuv2bgr" title="Permalink to this headline">¶</a></h2>
+<p>This function is for converting NV12 data to BGR planar data</p>
+<blockquote>
+<div><div class="highlight-c"><div class="highlight"><pre><span class="n">bm_status_t</span> <span class="nf">bm_img_yuv2bgr</span><span class="p">(</span>
+    <span class="n">bm_handle_t</span>      <span class="n">handle</span><span class="p">,</span>    <span class="c1">//input</span>
+    <span class="n">bmcv_image</span>       <span class="n">input</span><span class="p">,</span>     <span class="c1">//output</span>
+    <span class="n">bmcv_image</span>       <span class="n">output</span><span class="p">);</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Parameter Descriptions</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><strong>Parameter</strong></th>
+<th class="head"><strong>Memo</strong></th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>handle</td>
+<td>Context handle when bmcv init</td>
+</tr>
+<tr class="row-odd"><td>input</td>
+<td>Input image description structure, support NV12 in input data format and YUV and YCbCr in color space</td>
+</tr>
+<tr class="row-even"><td>ouput</td>
+<td>Output image description structure, support BGR planar/packed and RGB planar/packed data format and float or byte data type</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="bmcv-img-crop">
+<h2>bmcv_img_crop<a class="headerlink" href="#bmcv-img-crop" title="Permalink to this headline">¶</a></h2>
+<p>This function is to crop from existing image to create a new image.</p>
+<blockquote>
+<div><div class="highlight-c"><div class="highlight"><pre><span class="n">bm_status_t</span> <span class="nf">bmcv_img_crop</span><span class="p">(</span>
+    <span class="n">bm_handle_t</span>      <span class="n">handle</span><span class="p">,</span>
+    <span class="n">bmcv_image</span>       <span class="n">input</span><span class="p">,</span>
+    <span class="kt">int</span>              <span class="n">input_c</span><span class="p">,</span>
+    <span class="kt">int</span>              <span class="n">top</span><span class="p">,</span>
+    <span class="kt">int</span>              <span class="n">left</span><span class="p">,</span>
+    <span class="n">bmcv_image</span>       <span class="n">output</span><span class="p">);</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Parameter Descriptions</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="6%" />
+<col width="94%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><strong>Parameter</strong></th>
+<th class="head"><strong>Memo</strong></th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>handle</td>
+<td>Context handle when bmcv init</td>
+</tr>
+<tr class="row-odd"><td>input</td>
+<td>Input image description structure, support BGR planar and RGB planar data format, BGR will not re-order to RGB or vise verse even input data format and output data format is not aligned, input data type can be float or byte</td>
+</tr>
+<tr class="row-even"><td>input_c</td>
+<td>Number of color channels in input, may be 1 or 3, output color channel is 1 or 3 accordingly</td>
+</tr>
+<tr class="row-odd"><td>top</td>
+<td>Vertical starting point of crop, the original of image is top left of the image, in pixel</td>
+</tr>
+<tr class="row-even"><td>left</td>
+<td>Horizental starting point of crop, the original of image is top left of the image, in pixel</td>
+</tr>
+<tr class="row-odd"><td>ouput</td>
+<td>Output image description structure</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="bmcv-img-scale">
+<h2>bmcv_img_scale<a class="headerlink" href="#bmcv-img-scale" title="Permalink to this headline">¶</a></h2>
+<p>This function is to resize the image, with crop and convert function to the image.</p>
+<blockquote>
+<div><div class="highlight-c"><div class="highlight"><pre><span class="n">bm_status_t</span> <span class="nf">bmcv_img_scale</span><span class="p">(</span>
+    <span class="n">bm_handle_t</span> <span class="n">handle</span><span class="p">,</span>
+    <span class="n">bmcv_image</span> <span class="n">input</span><span class="p">,</span>
+    <span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="kt">int</span> <span class="n">do_crop</span><span class="p">,</span> <span class="kt">int</span> <span class="n">top</span><span class="p">,</span> <span class="kt">int</span> <span class="n">left</span><span class="p">,</span> <span class="kt">int</span> <span class="n">height</span><span class="p">,</span> <span class="kt">int</span> <span class="n">width</span><span class="p">,</span>
+    <span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">stretch</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">padding_b</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">padding_g</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">padding_r</span><span class="p">,</span>
+    <span class="kt">int</span> <span class="n">pixel_weight_bias</span><span class="p">,</span>
+    <span class="kt">float</span> <span class="n">weight_b</span><span class="p">,</span> <span class="kt">float</span> <span class="n">bias_b</span><span class="p">,</span>
+    <span class="kt">float</span> <span class="n">weight_g</span><span class="p">,</span> <span class="kt">float</span> <span class="n">bias_g</span><span class="p">,</span>
+    <span class="kt">float</span> <span class="n">weight_r</span><span class="p">,</span> <span class="kt">float</span> <span class="n">bias_r</span><span class="p">,</span>
+    <span class="n">bmcv_image</span> <span class="n">output</span><span class="p">);</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Parameter Descriptions</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="29%" />
+<col width="71%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><strong>Parameter</strong></th>
+<th class="head"><strong>Memo</strong></th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>handle</td>
+<td>Context handle when bmcv init</td>
+</tr>
+<tr class="row-odd"><td>input</td>
+<td>Input image description structure,
+support BGR planar and RGB planar data
+format, support float and byte in data
+type</td>
+</tr>
+<tr class="row-even"><td>n</td>
+<td>Number of images to process, only
+support 1 in current version</td>
+</tr>
+<tr class="row-odd"><td>do_crop</td>
+<td><p class="first">To crop or not:</p>
+<blockquote class="last">
+<div><p>0: no crop, following 4 position
+parameters will be omitted</p>
+<p>1: with crop, following 4 position
+parameter indicate the position
+and size</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="row-even"><td>top</td>
+<td>Vertical start position of crop</td>
+</tr>
+<tr class="row-odd"><td>left</td>
+<td>Horizental start position of crop</td>
+</tr>
+<tr class="row-even"><td>height</td>
+<td>Height to crop, in pixel</td>
+</tr>
+<tr class="row-odd"><td>width</td>
+<td>Width of crop, in pixel</td>
+</tr>
+<tr class="row-even"><td>stretch</td>
+<td><p class="first">resize mode:</p>
+<blockquote class="last">
+<div><p>0: resize in fit mode, keep the ratio
+of width and height, the spare space
+will be filled with following color
+channel value</p>
+<p>1:stretch mode, fill the object size</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="row-odd"><td>padding_b</td>
+<td>Blue value to fill spare space in fit
+mode, 0-255 byte, if output is byte
+format or float without normalize,
+padding with the value, if output is
+float with normalize, the value is
+normalized.</td>
+</tr>
+<tr class="row-even"><td>padding_g</td>
+<td>Green value to fill spare space in fit
+mode, 0-255 byte, if output is byte
+format or float without normalize,
+padding with the value, if output is
+float with normalize, the value is
+normalized.</td>
+</tr>
+<tr class="row-odd"><td>padding_r</td>
+<td>Red value to fill spare space in fit
+mode, 0-255 byte, if output is byte
+format or float without normalize,
+padding with the value, if output is
+float with normalize, the value is
+normalized.</td>
+</tr>
+<tr class="row-even"><td>pixel_weight_bias</td>
+<td><p class="first">If convert the output image:</p>
+<blockquote class="last">
+<div><p>0:no convert to output, following bias
+and weight parameters are omitted</p>
+<p>1:convert the output</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="row-odd"><td>weight_b</td>
+<td>Weight of blue channel</td>
+</tr>
+<tr class="row-even"><td>bias_b</td>
+<td>Bias of blue channel</td>
+</tr>
+<tr class="row-odd"><td>weight_g</td>
+<td>Weight of green channel</td>
+</tr>
+<tr class="row-even"><td>bias_g</td>
+<td>Bias of green channel</td>
+</tr>
+<tr class="row-odd"><td>weight_r</td>
+<td>Weight of red channel</td>
+</tr>
+<tr class="row-even"><td>bias_r</td>
+<td>Bias of red channel</td>
+</tr>
+<tr class="row-odd"><td>ouput</td>
+<td>Output image description structure</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="bmcv-img-transpose">
+<h2>bmcv_img_transpose<a class="headerlink" href="#bmcv-img-transpose" title="Permalink to this headline">¶</a></h2>
+<p>This function is to transpose the image.</p>
+<blockquote>
+<div><div class="highlight-c"><div class="highlight"><pre><span class="n">bm_status_t</span> <span class="nf">bmcv_img_transpose</span><span class="p">(</span>
+    <span class="n">bm_handle_t</span>     <span class="n">handle</span><span class="p">,</span>
+    <span class="n">bmcv_image</span>      <span class="n">input</span><span class="p">,</span>
+    <span class="n">bmcv_image</span>      <span class="n">output</span><span class="p">);</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Parameter Descriptions</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="9%" />
+<col width="91%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><strong>Parameter</strong></th>
+<th class="head"><strong>Memo</strong></th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>handle</td>
+<td>Context handle when bmcv init</td>
+</tr>
+<tr class="row-odd"><td>input</td>
+<td>Input image description structure, support BGR planar and RGB planar data format, and float and byte in data type</td>
+</tr>
+<tr class="row-even"><td>ouput</td>
+<td>Output image description structure, support BGR planar and RGB planar in data format, support float and byte in data type, BGR channel sequence unchanged</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="bmcv-img-bgrsplit">
+<h2>bmcv_img_bgrsplit<a class="headerlink" href="#bmcv-img-bgrsplit" title="Permalink to this headline">¶</a></h2>
+<p>This function is to convert packed bgr image data to bgr planar data format.</p>
+<blockquote>
+<div><div class="highlight-c"><div class="highlight"><pre><span class="n">bm_status_t</span> <span class="nf">bmcv_img_bgrsplit</span><span class="p">(</span>
+    <span class="n">bm_handle_t</span>     <span class="n">handle</span><span class="p">,</span>
+    <span class="n">bmcv_image</span>      <span class="n">input</span><span class="p">,</span>
+    <span class="n">bmcv_image</span>      <span class="n">output</span><span class="p">);</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Parameter Descriptions</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="25%" />
+<col width="75%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><strong>Parameter</strong></th>
+<th class="head"><strong>Memo</strong></th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>handle</td>
+<td>Context handle when bmcv init</td>
+</tr>
+<tr class="row-odd"><td>input</td>
+<td>Input image description structure,
+support BGR packed and RGB packed data
+format, and float and byte in data type</td>
+</tr>
+<tr class="row-even"><td>ouput</td>
+<td>Output image description structure,
+support BGR planar and RGB planar in
+data format, support float and byte in
+data type, BGR channel sequence unchanged</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../demo/demo.html" class="btn btn-neutral float-right" title="BMCV Sample Code Explain" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="ffmpeg.html" class="btn btn-neutral" title="FFMPEG Interfaces" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Sophon.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
