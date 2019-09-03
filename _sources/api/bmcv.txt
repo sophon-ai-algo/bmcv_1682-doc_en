@@ -65,7 +65,7 @@ Parameter Descriptions
     ==============   ==================
     **Parameter**    **Memo**
     ==============   ==================
-    handle           Context handle when bmcv init
+    handle           Context handle when device request
     input            Input image description structure, support NV12 in input data format and YUV and YCbCr in color space
     ouput            Output image description structure, support BGR planar/packed and RGB planar/packed data format and float or byte data type
     ==============   ==================
@@ -90,7 +90,7 @@ Parameter Descriptions
     ==============    ====================================
     **Parameter**      **Memo**
     ==============    ====================================
-    handle             Context handle when bmcv init
+    handle             Context handle when device request
     input              Input image description structure, support BGR planar and RGB planar data format, BGR will not re-order to RGB or vise verse even input data format and output data format is not aligned, input data type can be float or byte
     input_c            Number of color channels in input, may be 1 or 3, output color channel is 1 or 3 accordingly
     top                Vertical starting point of crop, the original of image is top left of the image, in pixel
@@ -122,7 +122,7 @@ Parameter Descriptions
     +-----------------+-----------------------------------------+
     |**Parameter**    |**Memo**                                 |
     +=================+=========================================+
-    |handle           |Context handle when bmcv init            |
+    |handle           |Context handle when device request       |
     +-----------------+-----------------------------------------+
     |input            |Input image description structure,       |
     |                 |support BGR planar and RGB planar data   |
@@ -219,7 +219,7 @@ Parameter Descriptions
     ===============    =====================
      **Parameter**      **Memo**
     ===============    =====================
-     handle             Context handle when bmcv init
+     handle             Context handle when device request
      input              Input image description structure, support BGR planar and RGB planar data format, and float and byte in data type
      ouput              Output image description structure, support BGR planar and RGB planar in data format, support float and byte in data type, BGR channel sequence unchanged
     ===============    =====================
@@ -242,7 +242,7 @@ Parameter Descriptions
     +--------------+-----------------------------------------+
     | **Parameter**|**Memo**                                 |
     +==============+=========================================+
-    |handle        |Context handle when bmcv init            |
+    |handle        |Context handle when device request       |
     +--------------+-----------------------------------------+
     |input         |Input image description structure,       |
     |              |support BGR packed and RGB packed data   |
